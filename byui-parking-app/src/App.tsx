@@ -46,37 +46,52 @@ const parkingLots: ParkingLot[] = [
     permitTypes: ["Student", "Visitor"],
     distance: "0.6 mi",
   },
+  {
+    id: 4,
+    name: "Stadium Lot",
+    location: "Near Hyrum Manwaring Center",
+    totalSpots: 200,
+    availableSpots: 67,
+    permitTypes: ["Student", "Visitor"],
+    distance: "0.8 mi",
+  },
 ];
+
+function getAvailabilityColor(available: number, total: number): string {
+  const pct = available / total;
+  if (pct > 0.3) return "var(--green)";
+  if (pct > 0.1) return "var(--yellow)";
+  return "var(--red)";
+}
+
+function getAvailabilityLabel(available: number, total: number): string {
+  const pct = available / total;
+  if (pct > 0.3) return "Open";
+  if (pct > 0.1) return "Limited";
+  return "Almost Full";
+}
 
 function App() {
   const [selectedLot, setSelectedLot] = useState<ParkingLot | null>(null);
-
   const [reservation, setReservation] = useState<Reservation | null>(null);
-
   const [startTime, setStartTime] = useState<string>("10:00");
-
-  const [duration, setDuration] = useState<string>("60");
+  const [hours, setHours] = useState<number>(1);
 
   function reserveLot() {
     if (!selectedLot) return;
-
-    const newReservation: Reservation = {
+    setReservation({
       lot: selectedLot.name,
       startTime,
-      duration,
-      code: `BYUI-${selectedLot.id}-${Math.floor(
-        Math.random() * 9000 + 1000
-      )}`,
-    };
-
-    setReservation(newReservation);
+      duration: hours === 1 ? "1 hour" : `${hours} hours`,
+      code: `BYUI-${selectedLot.id}-${Math.floor(Math.random() * 9000 + 1000)}`,
+    });
   }
 
   function resetApp() {
     setSelectedLot(null);
     setReservation(null);
     setStartTime("10:00");
-    setDuration("60");
+    setHours(1);
   }
 
   if (reservation) {
@@ -84,32 +99,20 @@ function App() {
       <main className="app">
         <section className="confirmation-card">
           <div className="success-icon">✓</div>
-
           <h1>Reservation Confirmed</h1>
-
           <p>You reserved parking in:</p>
-
           <h2>{reservation.lot}</h2>
-
           <div className="reservation-details">
-            <p>
-              <strong>Start Time:</strong> {reservation.startTime}
-            </p>
-
-            <p>
-              <strong>Duration:</strong> {reservation.duration} minutes
-            </p>
+            <p><strong>Start Time:</strong> {reservation.startTime}</p>
+            <p><strong>Duration:</strong> {reservation.duration}</p>
+            <p><strong>Cost:</strong> ${(hours * 1.5).toFixed(2)}</p>
           </div>
-
           <div className="qr-box">
             <span>{reservation.code}</span>
           </div>
-
           <p className="small-text">
-            Show this QR/pass code if campus parking needs to verify your
-            reservation.
+            Show this code if campus parking needs to verify your reservation.
           </p>
-
           <button onClick={resetApp}>Back to Lots</button>
         </section>
       </main>
@@ -117,23 +120,21 @@ function App() {
   }
 
   if (selectedLot) {
+    const color = getAvailabilityColor(selectedLot.availableSpots, selectedLot.totalSpots);
     return (
       <main className="app">
-        <button
-          className="back-button"
-          onClick={() => setSelectedLot(null)}
-        >
+        <button className="back-button" onClick={() => setSelectedLot(null)}>
           ← Back
         </button>
-
         <section className="detail-card">
           <h1>{selectedLot.name}</h1>
-
           <p className="muted">{selectedLot.location}</p>
 
-          <div className="availability-big">
-            <span>{selectedLot.availableSpots}</span>
-            <p>spots available</p>
+          <div className="availability-big" style={{ background: `${color}18` }}>
+            <span style={{ color }}>{selectedLot.availableSpots}</span>
+            <p style={{ color }}>
+              spots available · {getAvailabilityLabel(selectedLot.availableSpots, selectedLot.totalSpots)}
+            </p>
           </div>
 
           <div className="lot-info-grid">
@@ -141,12 +142,10 @@ function App() {
               <strong>Total Spots</strong>
               <p>{selectedLot.totalSpots}</p>
             </div>
-
             <div>
               <strong>Distance</strong>
               <p>{selectedLot.distance}</p>
             </div>
-
             <div>
               <strong>Permits</strong>
               <p>{selectedLot.permitTypes.join(", ")}</p>
@@ -155,7 +154,6 @@ function App() {
 
           <div className="form-group">
             <label>Start Time</label>
-
             <input
               type="time"
               value={startTime}
@@ -164,22 +162,22 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Reservation Length</label>
-
-            <select
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-            >
-              <option value="30">30 minutes</option>
-              <option value="60">1 hour</option>
-              <option value="90">1.5 hours</option>
-              <option value="120">2 hours</option>
-            </select>
+            <label>Duration — {hours} {hours === 1 ? "hour" : "hours"} · ${(hours * 1.5).toFixed(2)}</label>
+            <input
+              type="range"
+              min={1}
+              max={12}
+              value={hours}
+              onChange={(e) => setHours(Number(e.target.value))}
+              className="slider"
+            />
+            <div className="slider-labels">
+              <span>1 hr</span>
+              <span>12 hrs</span>
+            </div>
           </div>
 
-          <button onClick={reserveLot}>
-            Reserve a Spot in This Lot
-          </button>
+          <button onClick={reserveLot}>Reserve a Spot — ${(hours * 1.5).toFixed(2)}</button>
         </section>
       </main>
     );
@@ -188,39 +186,47 @@ function App() {
   return (
     <main className="app">
       <section className="hero">
-        <p className="eyebrow">BYU-I Parking</p>
-
+        <p className="eyebrow">BYU-Idaho Transit</p>
         <h1>Find and reserve campus parking.</h1>
-
-        <p>
-          Check available lots, reserve a spot in a lot, and get a quick
-          confirmation pass.
-        </p>
+        <p>Check live availability, reserve a spot, and get a quick confirmation pass.</p>
       </section>
 
       <section className="lot-list">
-        {parkingLots.map((lot) => (
-          <article key={lot.id} className="lot-card">
-            <div>
-              <h2>{lot.name}</h2>
-              <p>{lot.location}</p>
-            </div>
+        {parkingLots.map((lot) => {
+          const color = getAvailabilityColor(lot.availableSpots, lot.totalSpots);
+          const label = getAvailabilityLabel(lot.availableSpots, lot.totalSpots);
+          return (
+            <article key={lot.id} className="lot-card">
+              <div className="lot-card-top">
+                <div>
+                  <h2>{lot.name}</h2>
+                  <p>{lot.location}</p>
+                </div>
+                <div className="availability-badge" style={{ background: `${color}18`, color }}>
+                  <span className="availability-number">{lot.availableSpots}</span>
+                  <span className="availability-label">{label}</span>
+                </div>
+              </div>
 
-            <div className="availability">
-              <span>{lot.availableSpots}</span>
-              <p>open spots</p>
-            </div>
+              <div className="lot-bar-wrap">
+                <div
+                  className="lot-bar-fill"
+                  style={{
+                    width: `${(lot.availableSpots / lot.totalSpots) * 100}%`,
+                    background: color,
+                  }}
+                />
+              </div>
 
-            <div className="lot-meta">
-              <span>{lot.distance}</span>
-              <span>{lot.permitTypes.join(" / ")}</span>
-            </div>
+              <div className="lot-meta">
+                <span>{lot.distance}</span>
+                <span>{lot.permitTypes.join(" / ")}</span>
+              </div>
 
-            <button onClick={() => setSelectedLot(lot)}>
-              View Lot
-            </button>
-          </article>
-        ))}
+              <button onClick={() => setSelectedLot(lot)}>View Lot</button>
+            </article>
+          );
+        })}
       </section>
     </main>
   );
