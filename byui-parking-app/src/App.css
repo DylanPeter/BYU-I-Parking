@@ -255,7 +255,8 @@ input[type="time"] {
   border-radius: 12px;
   font-size: 1rem;
   font-family: inherit;
-  background: white;
+  color: white;
+  background: var(--byui-dark);
 }
 
 input[type="time"]:focus {
