@@ -1,0 +1,140 @@
+/* ─── MAIN CONTENT CONTAINER & SPACING ─── */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* ─── APP HEADER (Using Brand Blue) ─── */
+header {
+  background: linear-gradient(135deg, var(--accent-dark-blue), var(--accent-mid-blue));
+  color: var(--byui-white);
+  padding: 28px 24px;
+  border-radius: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 1.75rem;
+  line-height: 1.1;
+  margin: 0 0 4px;
+  color: var(--byui-white);
+}
+
+header p.eyebrow {
+  opacity: 0.85;
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+/* ─── NAVIGATION TAB SWITCHERS ─── */
+nav h2 { display: none; }
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+nav li { flex: 1; }
+
+nav button {
+  width: 100%;
+  font-size: 0.8rem;
+  padding: 10px 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  color: var(--byui-white);
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+nav button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ─── MODULAR CARDS ─── */
+.detail-card, .confirmation-card, .lot-list {
+  background: var(--byui-white);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  border: 1px solid #eef0f3;
+}
+
+h2 {
+  font-size: 1.35rem;
+  color: var(--accent-dark-blue);
+  margin: 0 0 4px;
+}
+
+.muted {
+  color: var(--byui-gray);
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+}
+
+/* ─── FORM & BUTTONS (Using Brand Blue for Actions) ─── */
+main button:not(nav button) {
+  width: 100%;
+  border: none;
+  background: var(--accent-dark-blue);
+  color: var(--byui-white);
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.975rem;
+  transition: background 0.15s ease;
+}
+
+main button:not(nav button):hover {
+  background: var(--byui-brand-blue);
+}
+
+input[type="time"]:focus {
+  outline: none;
+  border-color: var(--accent-dark-blue);
+}
+
+input[type="range"].slider {
+  accent-color: var(--accent-dark-blue);
+}
+
+/* ─── LEDGER & QR STYLES ─── */
+.qr-box {
+  border: 2.5px dashed var(--accent-dark-blue);
+  color: var(--accent-dark-blue);
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 24px 16px;
+  margin: 16px 0;
+  text-align: center;
+  font-weight: 900;
+}
+
+th {
+  color: var(--byui-gray);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
