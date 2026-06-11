@@ -347,3 +347,73 @@ input[type="range"] {
   font-size: 0.85rem;
   margin-bottom: 20px;
 }
+
+/* Map Css */
+
+/* ─── MAP ─── */
+.map-section {
+  width: 100%;
+  height: 420px;
+  min-height: 420px;
+  margin: 20px 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 16px rgba(33, 68, 145, 0.09);
+  position: relative;
+  z-index: 1;
+}
+
+.campus-map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-popup {
+  min-width: 180px;
+}
+
+.map-popup h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.map-popup p {
+  margin: 4px 0;
+}
+
+.map-popup button {
+  margin-top: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+
+/* Filter Card */
+
+.filter-card {
+  position: relative;
+  z-index: 1000;
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 16px rgba(33, 68, 145, 0.09);
+}
+
+.filter-card label {
+  margin-bottom: 8px;
+}
+
+.filter-card select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: white;
+  color: #17202a;
+  position: relative;
+  z-index: 1001;
+}
