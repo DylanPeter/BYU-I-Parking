@@ -1,0 +1,48 @@
+import type { ParkingLot } from "../types/parking";
+
+export const parkingLots: ParkingLot[] = [
+  {
+    id: 1,
+    name: "Manwaring Lot",
+    location: "Near MC / Student Center",
+    totalSpots: 120,
+    availableSpots: 18,
+    permitTypes: ["Student", "Faculty"],
+    distance: "0.2 mi",
+    lat: 43.8154,
+    lng: -111.7834,
+  },
+  {
+    id: 2,
+    name: "Library Lot",
+    location: "Near McKay Library",
+    totalSpots: 90,
+    availableSpots: 4,
+    permitTypes: ["Student"],
+    distance: "0.4 mi",
+    lat: 43.8184,
+    lng: -111.7837,
+  },
+  {
+    id: 3,
+    name: "Hart Lot",
+    location: "Near Hart Building",
+    totalSpots: 160,
+    availableSpots: 42,
+    permitTypes: ["Student", "Visitor"],
+    distance: "0.6 mi",
+    lat: 43.8202,
+    lng: -111.7846,
+  },
+  {
+    id: 4,
+    name: "Stadium Lot",
+    location: "Near Stadium / Athletic Fields",
+    totalSpots: 200,
+    availableSpots: 67,
+    permitTypes: ["Student", "Visitor"],
+    distance: "0.8 mi",
+    lat: 43.8211,
+    lng: -111.7868,
+  },
+];

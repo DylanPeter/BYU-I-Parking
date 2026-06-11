@@ -41,11 +41,26 @@ body {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
   justify-content: center;
 h1 {
   font-family: var(--heading);
   font-weight: 500;
   color: var(--text-h);
+}
+
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: black
 }
 
 h2 {
