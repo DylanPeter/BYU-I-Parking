@@ -3,11 +3,17 @@ import "./App.css";
 import Dashboard from "./dashboard";
 import LiveMapPage from "./LiveMapPage";
 import SpotBookingPage from "./SpotBookingPage";
-import PaymentLedgerPage from "./PaymentLedgerPage";
+import PaymentPage from "./PaymentPage";
 import { ParkingProvider } from '../context/ParkingContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'dashboard' | 'map' | 'booking' | 'ledger'>('dashboard');
+  const [currentPage, setCurrentPage] = useState<'dashboard' | 'map' | 'booking' | 'payment'>('dashboard');
+  const [paymentMessage, setPaymentMessage] = useState('');
+
+  const handleReservationConfirmed = (message: string) => {
+    setPaymentMessage(message);
+    setCurrentPage('payment');
+  };
 
   return (
     <ParkingProvider>
@@ -37,8 +43,8 @@ function App() {
               </button>
             </li>
             <li>
-              <button type="button" className={currentPage === 'ledger' ? 'active' : ''} onClick={() => setCurrentPage('ledger')}>
-                Ledger
+              <button type="button" className={currentPage === 'payment' ? 'active' : ''} onClick={() => setCurrentPage('payment')}>
+                Payment
               </button>
             </li>
           </ul>
@@ -49,8 +55,8 @@ function App() {
         {/* Render the view based on state */}
         {currentPage === 'dashboard' && <Dashboard />}
         {currentPage === 'map' && <LiveMapPage />}
-        {currentPage === 'booking' && <SpotBookingPage />}
-        {currentPage === 'ledger' && <PaymentLedgerPage />}
+        {currentPage === 'booking' && <SpotBookingPage onReservationConfirmed={handleReservationConfirmed} />}
+        {currentPage === 'payment' && <PaymentPage message={paymentMessage} />}
       </main>
 
       <footer>
