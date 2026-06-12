@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import type { ParkingLot } from "../data/parkingData";
-import { getAvailabilityColor } from "../utils/availability";
+// import { getAvailabilityColor } from "../utils/availability";
 import {useEffect} from "react";
 import { useMap } from "react-leaflet";
 
