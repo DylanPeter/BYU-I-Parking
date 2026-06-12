@@ -2,7 +2,11 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useParking } from '../context/ParkingContext';
 
-export default function SpotBookingPage() {
+type SpotBookingPageProps = {
+  onReservationConfirmed?: (message: string) => void;
+};
+
+export default function SpotBookingPage({ onReservationConfirmed }: SpotBookingPageProps) {
   const { state, reserveSpot } = useParking();
   const [selectedLot, setSelectedLot] = useState(state.lots[0]?.id ?? '');
   const [selectedSpot, setSelectedSpot] = useState('');
@@ -18,8 +22,12 @@ export default function SpotBookingPage() {
   const handleReserve = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedLot || !selectedSpot) return;
+
     reserveSpot(selectedLot, selectedSpot, startTime, hours, chosenSpot?.label);
-    setMessage(`Reserved ${chosenSpot?.label || 'spot'} in ${currentLot?.name || 'lot'} for ${hours} hour(s).`);
+
+    const confirmationMessage = `Reserved ${chosenSpot?.label || 'spot'} in ${currentLot?.name || 'lot'} for ${hours} hour(s).`;
+    setMessage(confirmationMessage);
+    onReservationConfirmed?.(confirmationMessage);
   };
 
   return (

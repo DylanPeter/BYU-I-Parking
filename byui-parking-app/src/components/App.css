@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 24px;
   width: min(1180px, 100%);
+  max-width: 100%;
   margin: 0 auto;
   padding: 24px 18px;
 }
@@ -11,6 +12,8 @@
 main {
   display: grid;
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ─── APP HEADER (Using Brand Blue) ─── */
@@ -92,13 +95,16 @@ nav button.active {
 .confirmation-card,
 .lot-list,
 .booking-card,
-.ledger-card {
+.payment-card {
   background: var(--byui-white);
   border-radius: 22px;
   padding: 26px;
   box-shadow: 0 12px 30px rgba(16, 44, 91, 0.08);
   text-align: left;
   border: 1px solid rgba(199, 207, 219, 0.65);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .hero-card {
@@ -246,7 +252,7 @@ nav button.active {
 
 /* ─── FORM & BUTTONS (Using Brand Blue for Actions) ─── */
 .booking-header,
-.ledger-header {
+.payment-header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -255,7 +261,7 @@ nav button.active {
 }
 
 .booking-header h2,
-.ledger-header h2 {
+.payment-header h2 {
   margin: 0;
 }
 
@@ -327,9 +333,137 @@ nav button.active {
   color: var(--byui-gray);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 980px) {
+  nav ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .map-meta,
+  .reservation-summary,
+  .form-group.split,
+  .lot-detail-grid,
+  .lot-grid {
+    grid-template-columns: 1fr;
+  }
+
   .spot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reservation-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  header {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  header h1 {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    line-height: 1.1;
+  }
+
+  header p.eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+  }
+
+  nav {
+    margin-top: 16px;
+  }
+
+  nav ul {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  nav button {
+    text-align: center;
+    white-space: normal;
+    line-height: 1.15;
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+
+  .detail-card,
+  .payment-card,
+  .reservation-card,
+  .lot-card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .payment-header,
+  .booking-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .spot-grid,
+  .lot-grid,
+  .reservation-summary,
+  .map-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .spot-card {
+    min-height: 84px;
+    padding: 12px;
+  }
+
+  .payment-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .payment-table th,
+  .payment-table td {
+    white-space: normal;
+    word-break: break-word;
+    padding: 10px 8px;
+  }
+
+  .cancel-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 10px;
+  }
+
+  .detail-card,
+  .payment-card,
+  .reservation-card,
+  .lot-card {
+    padding: 12px;
+  }
+
+  .lot-card strong,
+  .reservation-summary strong {
+    font-size: 1rem;
+  }
+
+  .status-pill {
+    font-size: 0.78rem;
+    padding: 7px 10px;
+  }
+
+  main button:not(nav button) {
+    padding: 13px 14px;
+    font-size: 0.95rem;
   }
 }
 
@@ -437,11 +571,28 @@ main button:not(nav button):hover {
   transform: translateY(-1px);
 }
 
+main,
+main * {
+  min-width: 0;
+}
+
+main p,
+main h1,
+main h2,
+main h3,
+main button,
+main span,
+main td,
+main th {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 input[type='range'].slider {
   accent-color: var(--accent-dark-blue);
 }
 
-/* ─── LEDGER STYLES ─── */
+/* ─── PAYMENT STYLES ─── */
 .reservation-list {
   display: grid;
   gap: 14px;
@@ -471,26 +622,26 @@ input[type='range'].slider {
   background: #e3f4ff;
 }
 
-.ledger-table {
+.payment-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
 }
 
-.ledger-table th,
-.ledger-table td {
+.payment-table th,
+.payment-table td {
   padding: 14px 12px;
   border-bottom: 1px solid rgba(151, 161, 178, 0.12);
 }
 
-.ledger-table th {
+.payment-table th {
   font-size: 0.8rem;
   text-transform: uppercase;
   color: var(--accent-dark-blue);
   letter-spacing: 0.05em;
 }
 
-.ledger-table td {
+.payment-table td {
   color: var(--text);
 }
 

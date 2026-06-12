@@ -1,16 +1,22 @@
 import { useParking } from '../context/ParkingContext';
 
-export default function PaymentLedgerPage() {
+type PaymentPageProps = {
+  message?: string;
+};
+
+export default function PaymentPage({ message }: PaymentPageProps) {
   const { state, cancelReservation } = useParking();
 
   return (
-    <div className="detail-card ledger-card">
-      <div className="ledger-header">
+    <div className="detail-card payment-card">
+      <div className="payment-header">
         <div>
-          <h2>Parking Ledger</h2>
+          <h2>Parking Payment</h2>
           <p className="muted">Track reservations, payments, and recent activity in one place.</p>
         </div>
       </div>
+
+      {message && <div className="toast success" style={{ marginBottom: 16 }}>{message}</div>}
 
       <section>
         <h3>Your Active Reservations</h3>
@@ -45,7 +51,7 @@ export default function PaymentLedgerPage() {
         {state.transactions.length === 0 ? (
           <p className="muted">No payments yet.</p>
         ) : (
-          <table className="ledger-table">
+          <table className="payment-table">
             <thead>
               <tr>
                 <th>Transaction</th>

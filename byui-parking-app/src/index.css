@@ -1,5 +1,4 @@
 :root {
-  /* Official BYU-Idaho Brand Colors */
   --byui-brand-blue: #006EB6;
   --byui-black: #000000;
   --byui-white: #FFFFFF;
@@ -33,7 +32,9 @@ html, body {
 }
 
 body {
+  margin: 0;
   background: var(--bg);
+  font-family: var(--sans);
 }
 
 #root {
@@ -45,47 +46,21 @@ body {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading);
+  line-height: 1.1;
+  color: var(--text);
 }
 
 h1 {
-  justify-content: center;
-h1 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
 }
 
 h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: black
-}
-
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: black
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  margin: 0 0 0.5rem;
 }
 
 button,
@@ -103,4 +78,4 @@ a {
 img {
   display: block;
   max-width: 100%;
-}}
+}
