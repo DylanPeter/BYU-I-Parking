@@ -4,7 +4,6 @@ import "./App.css";
 import { parkingLots } from "./data/parkingLots";
 import type { ParkingLot, Reservation } from "./types/parking";
 
-import CampusMap from "./components/CampusMap";
 import PermitFilter from "./components/PermitFilter";
 import ParkingLotList from "./components/ParkingLotList";
 import ParkingLotDetail from "./components/ParkingLotDetail";
@@ -82,8 +81,6 @@ function App() {
         permitOptions={permitOptions}
         onChange={setSelectedPermit}
       />
-
-      <CampusMap lots={filteredLots} onSelectLot={setSelectedLot} />
 
       <ParkingLotList lots={filteredLots} onSelectLot={setSelectedLot} />
     </main>

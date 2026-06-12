@@ -1,10 +1,11 @@
-export interface ParkingLot {
+export type ParkingLot = {
   id: string;
   name: string;
   availableSpots: number;
   totalSpots: number;
   status: 'Open' | 'Limited' | 'Full';
-}
+  coordinates: [number, number];
+};
 
 export interface ParkingSpot {
   id: string;
@@ -17,10 +18,38 @@ export interface ParkingSpot {
 }
 
 export const campusLots: ParkingLot[] = [
-  { id: 'lot-a', name: 'Manwaring Center Lot (Lot A)', availableSpots: 18, totalSpots: 120, status: 'Open' },
-  { id: 'lot-b', name: 'Library Lot (Lot B)', availableSpots: 4, totalSpots: 90, status: 'Limited' },
-  { id: 'lot-c', name: 'Hart Lot (Lot C)', availableSpots: 42, totalSpots: 160, status: 'Open' },
-  { id: 'lot-d', name: 'Stadium Lot (Lot D)', availableSpots: 67, totalSpots: 200, status: 'Open' },
+  {
+    id: 'lot-a',
+    name: 'Manwaring Center Lot (Lot A)',
+    availableSpots: 18,
+    totalSpots: 120,
+    status: 'Open',
+    coordinates: [43.8176, -111.7836], // Manwaring Center
+  },
+  {
+    id: 'lot-b',
+    name: 'Library Lot (Lot B)',
+    availableSpots: 4,
+    totalSpots: 90,
+    status: 'Limited',
+    coordinates: [43.8185, -111.7838],
+  },
+  {
+    id: 'lot-c',
+    name: 'Hart Lot (Lot C)',
+    availableSpots: 42,
+    totalSpots: 160,
+    status: 'Open',
+    coordinates: [43.8167, -111.7818],
+  },
+  {
+    id: 'lot-d',
+    name: 'Stadium Lot (Lot D)',
+    availableSpots: 67,
+    totalSpots: 200,
+    status: 'Open',
+    coordinates: [43.8128, -111.7829],
+  },
 ];
 
 export const parkingSpots: ParkingSpot[] = [
