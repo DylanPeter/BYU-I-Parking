@@ -654,3 +654,54 @@ input[type='range'].slider {
     grid-template-columns: 1fr;
   }
 }
+
+.recommendation-card {
+  background: linear-gradient(
+    135deg,
+    rgba(33, 68, 145, 0.08),
+    rgba(79, 154, 207, 0.12)
+  );
+
+  border: 2px solid rgba(33, 68, 145, 0.15);
+
+  border-radius: 16px;
+
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.recommendation-card h3 {
+  margin: 6px 0;
+  color: var(--byui-dark);
+}
+
+.recommendation-card p {
+  margin: 4px 0;
+}
+
+.map-style-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 900;
+  display: flex;
+  gap: 6px;
+  background: white;
+  padding: 6px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+}
+
+.map-style-toggle button {
+  width: auto;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  background: transparent;
+  color: var(--byui-dark);
+}
+
+.map-style-toggle button.active {
+  background: var(--byui-dark);
+  color: white;
+}
