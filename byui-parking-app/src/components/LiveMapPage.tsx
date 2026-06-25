@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useParking } from '../context/ParkingContext';
+import DestinationSearch from '../components/DestinationSearch';
 import CampusMap from '../components/CampusMap';
+import { destinations } from '../data/destinations';
 
 export default function LiveMapPage() {
   const { state } = useParking();
@@ -12,6 +14,24 @@ export default function LiveMapPage() {
   const availableCount = lotSpots.filter((spot) => spot.status === 'Available').length;
   const reservedCount = lotSpots.filter((spot) => spot.status === 'Reserved').length;
   const occupiedCount = lotSpots.filter((spot) => spot.status === 'Occupied').length;
+  const [selectedDestination, setSelectedDestination] = useState("");
+
+  const recommendedLots = selectedDestination
+  ? [...state.lots].sort((a, b) => {
+      const aWalk = a.walkMinutes?.[selectedDestination] ?? 999;
+      const bWalk = b.walkMinutes?.[selectedDestination] ?? 999;
+
+      if (aWalk !== bWalk) return aWalk - bWalk;
+
+      return b.availableSpots - a.availableSpots;
+    })
+  : state.lots;
+
+  const recommendedLot = selectedDestination ? recommendedLots[0] : null;
+
+  const selectedDestinationData = destinations.find(
+  (destination) => destination.id === selectedDestination
+);
 
   return (
     <div className="lot-list">
@@ -30,11 +50,33 @@ export default function LiveMapPage() {
 
       <section className="detail-card">
         <div className="map-preview">
-          <CampusMap
-            lots={state.lots}
-            selectedLotId={selectedLotId}
-            onSelectLot={(lot) => setSelectedLotId(lot.id)}
-          />
+          <DestinationSearch
+              selectedDestination={selectedDestination}
+              onChange={setSelectedDestination}
+                />
+                {recommendedLot && (
+                  <section className="recommendation-card">
+                    <p className="eyebrow">Recommended Parking</p>
+
+                    <h3>⭐ {recommendedLot.name}</h3>
+                    <p>
+                      {recommendedLot.walkMinutes[selectedDestination]} minute walk
+                    </p>
+                    <p>
+                      {recommendedLot.availableSpots} spaces available
+                    </p>
+                    <p>
+                      Status: <strong>{recommendedLot.status}</strong>
+                    </p>
+                  </section>
+                )}
+            <CampusMap
+              lots={recommendedLots}
+              selectedLotId={selectedLotId}
+              recommendedLotId={recommendedLot?.id}
+              selectedDestination={selectedDestinationData}
+              onSelectLot={(lot) => setSelectedLotId(lot.id)}
+            />
 
           <div className="map-meta">
             <span>Zoom: 100%</span>
@@ -46,7 +88,7 @@ export default function LiveMapPage() {
         <h3>Available Lots</h3>
 
         <div className="lot-grid">
-          {state.lots.map((lot) => (
+          {recommendedLots.map((lot) => (
             <button
               key={lot.id}
               type="button"
@@ -55,6 +97,15 @@ export default function LiveMapPage() {
             >
               <strong>{lot.name}</strong>
               <span>{lot.availableSpots} open</span>
+
+              {selectedDestination && lot.walkMinutes?.[selectedDestination] && (
+                <span>{lot.walkMinutes[selectedDestination]} min walk</span>
+              )}
+
+              {lot.id === recommendedLot?.id && (
+                <small>⭐ Recommended</small>
+              )}
+
               <small>{lot.status}</small>
             </button>
           ))}

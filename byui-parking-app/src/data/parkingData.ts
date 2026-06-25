@@ -3,8 +3,10 @@ export type ParkingLot = {
   name: string;
   availableSpots: number;
   totalSpots: number;
-  status: 'Open' | 'Limited' | 'Full';
+  status: "Open" | "Limited" | "Full";
   coordinates: [number, number];
+  boundary: [number, number][];
+  walkMinutes: Record<string, number>;
 };
 
 export interface ParkingSpot {
@@ -19,13 +21,25 @@ export interface ParkingSpot {
 
 export const campusLots: ParkingLot[] = [
   {
-    id: 'lot-a',
-    name: 'Manwaring Center Lot (Lot A)',
-    availableSpots: 18,
-    totalSpots: 120,
-    status: 'Open',
-    coordinates: [43.8176, -111.7836], // Manwaring Center
+  id: "lot-a",
+  name: "Manwaring Lot",
+  availableSpots: 18,
+  totalSpots: 120,
+  status: "Open",
+  coordinates: [43.8181, -111.7839],
+  walkMinutes: {
+    manwaring: 2,
+    library: 4,
+    hart: 6,
+    smith: 5,
   },
+  boundary: [
+    [43.81825, -111.78415],
+    [43.81855, -111.78395],
+    [43.81835, -111.78355],
+    [43.81805, -111.78375],
+  ],
+},
   {
     id: 'lot-b',
     name: 'Library Lot (Lot B)',
@@ -33,6 +47,18 @@ export const campusLots: ParkingLot[] = [
     totalSpots: 90,
     status: 'Limited',
     coordinates: [43.8185, -111.7838],
+      walkMinutes: {
+      manwaring: 2,
+      library: 4,
+      hart: 7,
+      smith: 4,
+  },
+        boundary: [
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+    ],
   },
   {
     id: 'lot-c',
@@ -40,7 +66,19 @@ export const campusLots: ParkingLot[] = [
     availableSpots: 42,
     totalSpots: 160,
     status: 'Open',
-    coordinates: [43.8167, -111.7818],
+    coordinates: [43.8176, -111.7803],
+    walkMinutes: {
+      manwaring: 5,
+      library: 6,
+      hart: 1,
+      smith: 6,
+    },
+boundary: [
+  [43.81725, -111.78255],
+  [43.81725, -111.78115],
+  [43.81625, -111.78115],
+  [43.81625, -111.78255],
+],
   },
   {
     id: 'lot-d',
@@ -49,6 +87,18 @@ export const campusLots: ParkingLot[] = [
     totalSpots: 200,
     status: 'Open',
     coordinates: [43.8128, -111.7829],
+    walkMinutes: {
+      manwaring: 8,
+      library: 7,
+      hart: 4,
+      smith: 9,
+    },
+        boundary: [
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+      [43.8176, -111.7836],
+    ],
   },
 ];
 
