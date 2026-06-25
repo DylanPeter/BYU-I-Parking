@@ -8,6 +8,9 @@ export type ParkingLot = {
   distance: string;
   lat: number;
   lng: number;
+  hasAccessibleSpots: boolean;
+  hasEvCharging: boolean;
+  hasCompactSpots: boolean;
 };
 
 export type Reservation = {

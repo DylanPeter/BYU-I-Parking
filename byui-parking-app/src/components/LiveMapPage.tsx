@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useParking } from '../context/ParkingContext';
+import CampusMap from './CampusMap';
+import type { ParkingLot } from '../data/parkingData';
 
 export default function LiveMapPage() {
   const { state } = useParking();
@@ -9,6 +11,8 @@ export default function LiveMapPage() {
   const availableCount = lotSpots.filter((spot) => spot.status === 'Available').length;
   const reservedCount = lotSpots.filter((spot) => spot.status === 'Reserved').length;
   const occupiedCount = lotSpots.filter((spot) => spot.status === 'Occupied').length;
+
+  const handleSelectLot = (lot: ParkingLot) => setSelectedLotId(lot.id);
 
   return (
     <div className="lot-list">
@@ -22,14 +26,7 @@ export default function LiveMapPage() {
       </section>
 
       <section className="detail-card">
-        <div className="map-preview">
-          <div className="map-placeholder">Campus map preview</div>
-          <div className="map-meta">
-            <span>Zoom: 100%</span>
-            <span>Layers: Parking lots</span>
-            <span>Status: Live</span>
-          </div>
-        </div>
+        <CampusMap lots={state.lots} onSelectLot={handleSelectLot} />
 
         <h3>Available Lots</h3>
         <div className="lot-grid">

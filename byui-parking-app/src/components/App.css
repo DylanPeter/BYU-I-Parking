@@ -1,656 +1,866 @@
-/* ─── MAIN CONTENT CONTAINER & SPACING ─── */
-.app {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: min(1180px, 100%);
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 24px 18px;
+* , *::before , *::after {
+  box-sizing: border-box;
 }
 
-main {
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --text: #17202a;
+  --muted: #4d5c74;
+  --byui-dark: #214491;
+  --byui-mid: #4F9ACF;
+  --byui-light: #A0D4ED;
+  --green: #06a77d;
+  --yellow: #d4840a;
+  --red: #c0392b;
+  --border: rgba(33, 68, 145, 0.15);
+  --shadow: 0 16px 40px rgba(16, 44, 91, 0.08);
+  font-family: Inter, system-ui, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f6f8fb 0%, #eef3f9 100%);
+  color: var(--text);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* ─── PAGE LAYOUT ─── */
+.app {
+  min-height: 100vh;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 26px 24px 40px;
   display: grid;
   gap: 24px;
-  width: 100%;
-  max-width: 100%;
 }
 
-/* ─── APP HEADER (Using Brand Blue) ─── */
-header {
-  background: linear-gradient(135deg, var(--accent-dark-blue), var(--accent-mid-blue));
-  color: var(--byui-white);
-  padding: 28px 24px;
+.hero {
+  background: linear-gradient(135deg, var(--byui-dark), var(--byui-mid));
+  color: white;
+  padding: 32px 28px;
   border-radius: 28px;
-  box-shadow: 0 18px 56px rgba(33, 68, 145, 0.12);
+  display: grid;
+  gap: 16px;
 }
 
-.brand-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-header h1 {
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  line-height: 1.05;
-  margin: 0;
-}
-
-header p.eyebrow {
-  opacity: 0.9;
-  margin: 0;
-  font-size: 0.85rem;
+.eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.14em;
+  font-size: 0.78rem;
   font-weight: 700;
+  opacity: 0.88;
+  margin: 0 0 6px;
 }
 
-/* ─── NAVIGATION TAB SWITCHERS ─── */
-nav {
-  margin-top: 24px;
-}
-
-nav h2 { display: none; }
-
-nav ul {
-  list-style: none;
-  padding: 0;
+.hero h1 {
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  font-size: clamp(1.85rem, 4vw, 2.8rem);
+  line-height: 1.2;
+  padding-bottom: 2px;
+  color: #000;
 }
 
-nav button {
+.hero .eyebrow {
+  color: #fff;
+  opacity: 1;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 1rem;
+  max-width: 70ch;
+  opacity: 1;
+  color: #fff;
+}
+
+.auth-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  background: var(--surface);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(33, 68, 145, 0.08);
+}
+
+.auth-summary strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.auth-summary p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 780px;
+}
+
+.page-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.page-nav button {
   width: 100%;
-  font-size: 0.95rem;
+  appearance: none;
   padding: 14px 18px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: var(--byui-white);
-  border-radius: 14px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px solid rgba(33, 68, 145, 0.15);
+  background: white;
+  color: var(--byui-dark);
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
-nav button:hover {
-  background: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+.page-nav button:hover {
   transform: translateY(-1px);
 }
 
-nav button.active {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  color: var(--accent-dark-blue);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
-  font-weight: 900;
+.page-nav button.active {
+  background: var(--byui-mid);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 12px 32px rgba(33, 68, 145, 0.16);
 }
 
-/* ─── MODULAR CARDS ─── */
+.page-content {
+  display: grid;
+  gap: 24px;
+}
+
+.payment-section {
+  display: grid;
+  gap: 24px;
+}
+
+.auth-required-card {
+  margin: 0;
+}
+
+/* ─── CARDS + PANELS ─── */
 .detail-card,
+.feature-card,
+.payment-card,
 .confirmation-card,
-.lot-list,
-.booking-card,
-.payment-card {
-  background: var(--byui-white);
-  border-radius: 22px;
-  padding: 26px;
-  box-shadow: 0 12px 30px rgba(16, 44, 91, 0.08);
-  text-align: left;
-  border: 1px solid rgba(199, 207, 219, 0.65);
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
+.auth-card,
+.lot-card,
+.map-section,
+.filter-card {
+  background: var(--surface);
+  border-radius: 24px;
+  border: 1px solid rgba(33, 68, 145, 0.08);
+  box-shadow: var(--shadow);
 }
 
-.hero-card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.alert-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 18px;
-  background: rgba(255, 235, 205, 0.35);
-  color: #7a4f00;
-  font-weight: 700;
-}
-
-.map-preview {
-  display: grid;
-  gap: 18px;
-  margin-bottom: 22px;
-}
-
-.map-placeholder {
-  min-height: 220px;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #eef7ff 0%, #f8fbff 100%);
-  border: 1px dashed rgba(33, 68, 145, 0.25);
-  display: grid;
-  place-items: center;
-  color: var(--accent-dark-blue);
-  font-weight: 700;
-}
-
-.map-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.lot-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+.detail-card,
+.feature-card,
+.payment-card,
+.confirmation-card,
+.auth-card,
+.filter-card {
+  padding: 24px;
 }
 
 .lot-card {
   padding: 18px;
-  background: white;
-  border-radius: 18px;
-  border: 2px solid rgba(33, 68, 145, 0.2);
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(33, 68, 145, 0.08);
-  color: #1a2332;
 }
 
-.lot-card:hover {
-  background: #f5f8fc;
-  border-color: rgba(33, 68, 145, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 68, 145, 0.12);
-}
-
-.lot-card.selected {
-  background: var(--accent-dark-blue);
-  border: 2px solid var(--accent-mid-blue);
-  color: white;
-  box-shadow: 0 8px 24px rgba(33, 68, 145, 0.2);
-  font-weight: 700;
-}
-
-.lot-card strong {
-  font-size: 0.98rem;
-  font-weight: 700;
-}
-
-.lot-card.selected strong {
-  color: white;
-}
-
-.lot-card small {
-  color: #666d7a;
-  font-size: 0.85rem;
-}
-
-.lot-card.selected small {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.lot-summary-card,
-.reservation-card {
-  margin-top: 18px;
-  padding: 18px;
-  background: #f4f9ff;
-  border-radius: 18px;
-  border: 1px solid rgba(33, 68, 145, 0.12);
-}
-
-.lot-detail-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 18px 0;
-}
-
-.lot-detail-grid div {
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 16px;
-  padding: 14px;
-  text-align: center;
-}
-
-.lot-detail-grid p {
-  margin: 0 0 6px;
-  color: var(--byui-gray);
-  font-size: 0.85rem;
-}
-
-.lot-detail-grid strong {
-  display: block;
-  font-size: 1.2rem;
-}
-
-.lot-summary-card p,
-.reservation-card p {
-  margin: 6px 0;
-  color: var(--text);
-}
-
-.lot-summary-card h3,
-.reservation-card strong {
+.feature-card {
+  padding: 24px;
   margin-bottom: 10px;
 }
 
-.lot-summary-card p strong {
-  color: var(--accent-dark-blue);
-}
-
-/* ─── FORM & BUTTONS (Using Brand Blue for Actions) ─── */
-.booking-header,
-.payment-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-}
-
-.booking-header h2,
-.payment-header h2 {
-  margin: 0;
-}
-
-.lot-summary-pill {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  background: #eef6ff;
-  padding: 10px 16px;
-  border-radius: 999px;
-  color: var(--accent-dark-blue);
-  font-weight: 700;
-}
-
-.booking-form {
+.feature-grid,
+.lot-grid,
+.map-meta,
+.lot-info-grid,
+.filter-grid {
   display: grid;
-  gap: 20px;
-}
-
-.spot-grid-panel {
-  display: grid;
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.spot-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
-.spot-card {
-  border: 1px solid rgba(111, 143, 206, 0.15);
-  border-radius: 16px;
-  background: #f8fbff;
-  min-height: 96px;
-  padding: 16px;
-  text-align: left;
-  display: grid;
-  gap: 6px;
-  cursor: pointer;
-  color: var(--accent-dark-blue);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.spot-card.selected {
-  border-color: var(--accent-mid-blue);
-  background: #e9f3ff;
-}
-
-.spot-card.available:hover {
-  transform: translateY(-1px);
-  background: #eef4ff;
-}
-
-.spot-card.occupied,
-.spot-card.reserved {
-  opacity: 0.65;
-  cursor: not-allowed;
-  background: #f3f5f8;
-}
-
-.spot-card span {
-  font-weight: 700;
-}
-
-.spot-card small {
-  color: var(--byui-gray);
-}
-
-@media (max-width: 980px) {
-  nav ul {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .map-meta,
-  .reservation-summary,
-  .form-group.split,
-  .lot-detail-grid,
-  .lot-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .spot-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .reservation-top {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 640px) {
-  .app {
-    padding: 12px;
-    gap: 14px;
-  }
-
-  header {
-    padding: 16px;
-    border-radius: 20px;
-  }
-
-  header h1 {
-    font-size: clamp(1.45rem, 7vw, 1.9rem);
-    line-height: 1.1;
-  }
-
-  header p.eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-  }
-
-  nav {
-    margin-top: 16px;
-  }
-
-  nav ul {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  nav button {
-    text-align: center;
-    white-space: normal;
-    line-height: 1.15;
-    padding: 12px 14px;
-    min-height: 48px;
-  }
-
-  .detail-card,
-  .payment-card,
-  .reservation-card,
-  .lot-card {
-    padding: 14px;
-    border-radius: 18px;
-  }
-
-  .payment-header,
-  .booking-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .spot-grid,
-  .lot-grid,
-  .reservation-summary,
-  .map-meta {
-    grid-template-columns: 1fr;
-  }
-
-  .spot-card {
-    min-height: 84px;
-    padding: 12px;
-  }
-
-  .payment-table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .payment-table th,
-  .payment-table td {
-    white-space: normal;
-    word-break: break-word;
-    padding: 10px 8px;
-  }
-
-  .cancel-button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .app {
-    padding: 10px;
-  }
-
-  .detail-card,
-  .payment-card,
-  .reservation-card,
-  .lot-card {
-    padding: 12px;
-  }
-
-  .lot-card strong,
-  .reservation-summary strong {
-    font-size: 1rem;
-  }
-
-  .status-pill {
-    font-size: 0.78rem;
-    padding: 7px 10px;
-  }
-
-  main button:not(nav button) {
-    padding: 13px 14px;
-    font-size: 0.95rem;
-  }
-}
-
-.form-group.split {
+.feature-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
 }
 
-label {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--accent-dark-blue);
-}
-
-select,
-input[type='time'],
-input[type='range'] {
-  width: 100%;
-  font: inherit;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: #fcfdff;
-}
-
-select:focus,
-input[type='time']:focus,
-input[type='range']:focus {
-  outline: none;
-  border-color: var(--accent-dark-blue);
-  box-shadow: 0 0 0 3px rgba(74, 142, 219, 0.16);
-}
-
-.reservation-summary {
-  display: grid;
+.lot-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  background: #f8fbff;
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(33, 68, 145, 0.08);
 }
 
-.reservation-summary div {
+.map-meta,
+.lot-info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.feature-tile {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.reservation-summary span {
-  color: var(--byui-gray);
-}
-
-.reservation-summary strong {
-  font-size: 1.25rem;
-  color: var(--accent-dark-blue);
-}
-
-.toast {
+  align-items: center;
+  gap: 12px;
   padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(33, 68, 145, 0.12);
+  background: #f6f9ff;
+}
+
+.feature-tile input {
+  width: auto;
+}
+
+button {
+  width: 100%;
+  border: none;
+  background: var(--byui-dark);
+  color: white;
+  padding: 14px 18px;
   border-radius: 16px;
-  border: 1px solid transparent;
-  font-weight: 700;
-}
-
-.toast.success {
-  background: #e7f8ee;
-  color: #176033;
-  border-color: #b5e7c7;
-}
-
-.cancel-button {
-  margin-top: 14px;
-  width: fit-content;
-  padding: 10px 16px;
-  border: 1px solid rgba(255, 108, 108, 0.26);
-  background: #fff5f5;
-  color: #d53030;
-  border-radius: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.cancel-button:hover {
-  background: #ffe8e8;
+button:hover {
+  background: #192f6e;
   transform: translateY(-1px);
 }
 
-main button:not(nav button) {
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.secondary-button,
+.ghost-button {
+  width: auto;
+  background: #f4f6f8;
+  color: var(--byui-dark);
+  border: 1px solid rgba(33, 68, 145, 0.18);
+  padding: 12px 18px;
+}
+
+.ghost-button {
+  background: transparent;
+  border-color: rgba(33, 68, 145, 0.12);
+}
+
+.auth-card,
+.detail-card,
+.payment-card,
+.confirmation-card {
   width: 100%;
-  border: none;
-  background: var(--accent-dark-blue);
-  color: var(--byui-white);
-  padding: 15px 18px;
-  border-radius: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: transform 0.2s ease, background 0.15s ease;
 }
 
-main button:not(nav button):hover {
-  background: var(--byui-brand-blue);
-  transform: translateY(-1px);
+.auth-card {
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-main,
-main * {
-  min-width: 0;
-}
-
-main p,
-main h1,
-main h2,
-main h3,
-main button,
-main span,
-main td,
-main th {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-input[type='range'].slider {
-  accent-color: var(--accent-dark-blue);
-}
-
-/* ─── PAYMENT STYLES ─── */
-.reservation-list {
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
   display: grid;
-  gap: 14px;
+  place-items: center;
+  padding: 24px;
+  z-index: 50;
 }
 
-.reservation-card {
-  background: #fff;
+.auth-modal {
+  position: relative;
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.reservation-top {
+.auth-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(33, 68, 145, 0.18);
+  color: var(--byui-dark);
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.auth-switch,
+.auth-actions {
+  margin-top: 18px;
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
-.status-pill {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: #f6f7fa;
-  color: var(--accent-dark-blue);
-  font-size: 0.85rem;
+.auth-switch button,
+.auth-actions button {
+  background: transparent;
+  color: var(--byui-dark);
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
   font-weight: 700;
 }
 
-.status-pill.active {
-  background: #e3f4ff;
+.error-banner {
+  background: #fff3e9;
+  color: #7a3b07;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid #f7d3bb;
 }
 
-.payment-table {
+.back-button {
+  width: auto;
+  background: transparent;
+  color: var(--byui-dark);
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.detail-card h1,
+.confirmation-card h1,
+.auth-card h1 {
+  margin: 0 0 12px;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.lot-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: var(--text);
+  text-align: left;
+}
+
+/* Live Map "Available Lots" cards use strong/span/small directly */
+.lot-grid .lot-card {
+  gap: 6px;
+  align-items: flex-start;
+}
+.lot-grid .lot-card strong {
+  color: var(--byui-dark);
+  font-size: 1.02rem;
+}
+.lot-grid .lot-card span {
+  color: var(--text);
+  font-weight: 600;
+}
+.lot-grid .lot-card small {
+  color: var(--muted);
+  font-weight: 600;
+}
+.lot-grid .lot-card.selected {
+  border-color: var(--byui-mid);
+  box-shadow: 0 12px 32px rgba(33, 68, 145, 0.16);
+}
+.lot-grid .lot-card.selected strong { color: var(--byui-dark); }
+
+.lot-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.lot-card-top h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.lot-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.availability-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 12px;
+  border-radius: 18px;
+  background: #f0f4ff;
+}
+
+.lot-bar-wrap {
+  height: 6px;
+  background: #eef0f3;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.lot-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.lot-info-grid {
+  gap: 12px;
+}
+
+.lot-info-grid div {
+  background: #f4f6f8;
+  padding: 14px;
+  border-radius: 16px;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+input[type="time"],
+.filter-card select,
+.auth-form input,
+.auth-form select {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-}
-
-.payment-table th,
-.payment-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid rgba(151, 161, 178, 0.12);
-}
-
-.payment-table th {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: var(--accent-dark-blue);
-  letter-spacing: 0.05em;
-}
-
-.payment-table td {
+  padding: 14px 16px;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 14px;
+  font-size: 1rem;
   color: var(--text);
 }
 
-/* ─── RESPONSIVE */
-@media (max-width: 860px) {
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--byui-dark);
+}
+
+.confirmation-card {
+  text-align: center;
+}
+
+.success-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 18px;
+}
+
+.reservation-details,
+.qr-box {
+  width: 100%;
+}
+
+@media (max-width: 980px) {
+  .page-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-grid,
   .lot-grid,
-  .form-group.split,
-  .map-meta,
-  nav ul {
+  .lot-info-grid,
+  .map-meta {
     grid-template-columns: 1fr;
   }
+
+  .map-section {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 18px 16px 32px;
+  }
+
+  .auth-summary,
+  .feature-card,
+  .detail-card,
+  .payment-card,
+  .confirmation-card,
+  .auth-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .auth-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .page-nav button {
+    width: 100%;
+  }
+
+  .hero {
+    padding: 24px 20px;
+  }
+
+  .hero h1 {
+    font-size: 1.55rem;
+  }
+
+  .hero p,
+  .auth-summary p,
+  .muted,
+  .feature-tile,
+  .lot-card p,
+  .lot-card small {
+    font-size: 0.95rem;
+  }
+
+  .feature-tile {
+    padding: 14px;
+  }
+
+  .auth-modal {
+    width: min(100%, 100%);
+    padding: 14px;
+  }
+
+  .auth-close {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+/* ===== Campus map (Leaflet) ===== */
+.map-section {
+  padding: 16px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+/* Leaflet needs an explicit height or it renders at 0px and shows blank */
+.campus-map {
+  height: 420px;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  z-index: 0; /* keep map below modals/overlays */
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text, #1f2a44);
+}
+
+.map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.open { background: var(--green, #2e9e5b); }
+.legend-dot.limited { background: var(--yellow, #e0a106); }
+.legend-dot.full { background: var(--red, #d23b3b); }
+.legend-dot.building { background: #555; }
+
+.map-popup h3 { margin: 0 0 4px; font-size: 1rem; }
+.map-popup p { margin: 2px 0; font-size: 0.85rem; }
+.map-popup button {
+  margin-top: 6px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--byui-mid, #214491);
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .campus-map { height: 320px; }
+}
+
+/* ============================================================
+   Restored styles for components that lost their CSS
+   (booking, map summary, payment, reservations, auth)
+   ============================================================ */
+
+/* ---- Hero variant used inside detail cards ---- */
+.hero-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--byui-dark), var(--byui-mid));
+  color: #fff;
+}
+.hero-card h2 { margin: 4px 0; }
+.hero-card .eyebrow { color: rgba(255, 255, 255, 0.85); }
+.hero-card .muted { color: rgba(255, 255, 255, 0.9); }
+
+.alert-pill {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  max-width: 280px;
+}
+
+/* ---- Lists / layout wrappers ---- */
+.lot-list { display: grid; gap: 20px; }
+.brand-bar { display: flex; align-items: center; gap: 12px; }
+.small-text { font-size: 0.82rem; color: var(--muted); }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+/* ---- Booking card ---- */
+.booking-card { display: grid; gap: 20px; }
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.lot-summary-pill {
+  background: #eef3fb;
+  color: var(--byui-dark);
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.spot-grid-panel { display: grid; gap: 16px; }
+.booking-form { display: grid; gap: 18px; }
+.form-group { display: grid; gap: 8px; }
+.form-group label { font-weight: 600; color: var(--byui-dark); }
+.form-group select,
+.form-group input[type="time"],
+.form-group input[type="text"],
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+}
+
+/* ---- Spot grid + spot buttons (the white-on-white fix) ---- */
+.spot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.spot-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.spot-card small { font-weight: 500; font-size: 0.75rem; }
+
+/* Available = clearly clickable, dark text on light */
+.spot-card.available {
+  background: #eaf3ec;
+  color: #11643f;
+  border-color: rgba(6, 167, 125, 0.35);
+}
+.spot-card.available:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+/* Reserved / occupied = muted, not selectable */
+.spot-card.reserved {
+  background: #f3eee0;
+  color: #7a5a12;
+  border-color: rgba(212, 132, 10, 0.3);
+  cursor: not-allowed;
+}
+.spot-card.occupied {
+  background: #f3e6e4;
+  color: #8a2f25;
+  border-color: rgba(192, 57, 43, 0.3);
+  cursor: not-allowed;
+}
+
+/* Selected spot = strong brand fill, white text */
+.spot-card.selected {
+  background: var(--byui-dark);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 26px rgba(33, 68, 145, 0.28);
+}
+.spot-card:disabled { opacity: 0.85; }
+
+/* ---- Range slider ---- */
+.slider { width: 100%; accent-color: var(--byui-dark); }
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ---- Reservation summary block ---- */
+.reservation-summary {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f6f8fc;
+  border: 1px solid var(--border);
+}
+
+/* ---- Lot summary card (Live Map) ---- */
+.lot-summary-card {
+  margin-top: 16px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #f6f8fc;
+  border: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+}
+.lot-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.lot-detail-grid > div {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.stat-card-label { margin: 0 0 4px; font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+
+/* ---- Lot bar fill (availability bar) ---- */
+.lot-bar-fill { height: 100%; background: var(--byui-mid); border-radius: 99px; }
+
+/* ---- Availability big number (lot detail) ---- */
+.availability-big { display: grid; gap: 2px; text-align: center; }
+.availability-number { font-size: 1.8rem; font-weight: 800; color: var(--byui-dark); }
+.availability-label { font-size: 0.78rem; color: var(--muted); }
+
+/* ---- Payment page ---- */
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.payment-table { width: 100%; border-collapse: collapse; }
+.payment-table th,
+.payment-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.payment-table th { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* ---- Reservation list / cards ---- */
+.reservation-list { display: grid; gap: 14px; }
+.reservation-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 10px;
+}
+.reservation-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.reservation-details { display: grid; gap: 4px; color: var(--muted); font-size: 0.9rem; }
+.cancel-button {
+  width: auto;
+  background: #fff;
+  color: var(--red);
+  border: 1px solid rgba(192, 57, 43, 0.4);
+  padding: 10px 16px;
+}
+.cancel-button:hover { background: #fdecea; }
+
+/* ---- Auth ---- */
+.auth-page { display: grid; gap: 14px; }
+.auth-error {
+  background: #fdecea;
+  color: var(--red);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+}
+
+/* ---- Toast ---- */
+.toast {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.toast.success {
+  background: #eaf3ec;
+  color: #11643f;
+  border: 1px solid rgba(6, 167, 125, 0.35);
+}
+
+@media (max-width: 640px) {
+  .split,
+  .lot-detail-grid { grid-template-columns: 1fr; }
 }

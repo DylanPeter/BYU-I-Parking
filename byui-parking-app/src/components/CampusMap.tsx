@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
-import type { ParkingLot } from "../types/parking";
+import type { ParkingLot } from "../data/parkingData";
 import { getAvailabilityColor } from "../utils/availability";
 import {
   campusBuildings,
@@ -81,7 +81,7 @@ export default function CampusMap({ lots, onSelectLot }: CampusMapProps) {
         })}
         {campusBuildings.map((building: CampusBuilding) => (
             <CircleMarker
-                key={building.id}   
+                key={building.id}
                 center={[building.lat, building.lng]}
                 radius={8}
                 pathOptions={{

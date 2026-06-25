@@ -11,6 +11,9 @@ export const parkingLots: ParkingLot[] = [
     distance: "0.2 mi",
     lat: 43.8154,
     lng: -111.7834,
+    hasAccessibleSpots: true,
+    hasEvCharging: true,
+    hasCompactSpots: true,
   },
   {
     id: 2,
@@ -22,6 +25,9 @@ export const parkingLots: ParkingLot[] = [
     distance: "0.4 mi",
     lat: 43.8184,
     lng: -111.7837,
+    hasAccessibleSpots: true,
+    hasEvCharging: false,
+    hasCompactSpots: true,
   },
   {
     id: 3,
@@ -33,6 +39,9 @@ export const parkingLots: ParkingLot[] = [
     distance: "0.6 mi",
     lat: 43.8202,
     lng: -111.7846,
+    hasAccessibleSpots: false,
+    hasEvCharging: true,
+    hasCompactSpots: false,
   },
   {
     id: 4,
@@ -44,5 +53,8 @@ export const parkingLots: ParkingLot[] = [
     distance: "0.8 mi",
     lat: 43.8211,
     lng: -111.7868,
+    hasAccessibleSpots: true,
+    hasEvCharging: false,
+    hasCompactSpots: false,
   },
 ];

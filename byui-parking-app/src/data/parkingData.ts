@@ -4,6 +4,9 @@ export interface ParkingLot {
   availableSpots: number;
   totalSpots: number;
   status: 'Open' | 'Limited' | 'Full';
+  location: string;
+  lat: number;
+  lng: number;
 }
 
 export interface ParkingSpot {
@@ -17,10 +20,10 @@ export interface ParkingSpot {
 }
 
 export const campusLots: ParkingLot[] = [
-  { id: 'lot-a', name: 'Manwaring Center Lot (Lot A)', availableSpots: 18, totalSpots: 120, status: 'Open' },
-  { id: 'lot-b', name: 'Library Lot (Lot B)', availableSpots: 4, totalSpots: 90, status: 'Limited' },
-  { id: 'lot-c', name: 'Hart Lot (Lot C)', availableSpots: 42, totalSpots: 160, status: 'Open' },
-  { id: 'lot-d', name: 'Stadium Lot (Lot D)', availableSpots: 67, totalSpots: 200, status: 'Open' },
+  { id: 'lot-a', name: 'Manwaring Center Lot (Lot A)', availableSpots: 18, totalSpots: 120, status: 'Open', location: 'Central campus, by the Manwaring Center', lat: 43.8161, lng: -111.7825 },
+  { id: 'lot-b', name: 'Library Lot (Lot B)', availableSpots: 4, totalSpots: 90, status: 'Limited', location: 'North of the McKay Library', lat: 43.8188, lng: -111.7838 },
+  { id: 'lot-c', name: 'Hart Lot (Lot C)', availableSpots: 42, totalSpots: 160, status: 'Open', location: 'West of the Hart Building', lat: 43.8204, lng: -111.7851 },
+  { id: 'lot-d', name: 'Stadium Lot (Lot D)', availableSpots: 67, totalSpots: 200, status: 'Open', location: 'South campus, by the stadium', lat: 43.8142, lng: -111.7818 },
 ];
 
 export const parkingSpots: ParkingSpot[] = [
