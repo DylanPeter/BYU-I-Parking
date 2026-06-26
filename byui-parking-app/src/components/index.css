@@ -1,4 +1,4 @@
-:root {
+ :root {
   --byui-brand-blue: #006EB6;
   --byui-black: #000000;
   --byui-white: #FFFFFF;
@@ -32,18 +32,16 @@ html, body {
 }
 
 body {
-  margin: 0;
   background: var(--bg);
   font-family: var(--sans);
+  color: var(--text);
 }
 
 #root {
-  width: min(1200px, 100%);
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -61,13 +59,6 @@ h1 {
 h2 {
   font-size: clamp(1.25rem, 4vw, 1.75rem);
   margin: 0 0 0.5rem;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
 }
 
 a {

@@ -6,10 +6,10 @@ import {
   Tooltip,
   Polygon,
   Polyline,
+  useMap,
 } from "react-leaflet";
 import type { ParkingLot } from "../data/parkingData";
 import { Fragment, useEffect, useState } from "react";
-import { useMap } from "react-leaflet";
 
 function ResizeMap() {
   const map = useMap();
@@ -42,34 +42,46 @@ export default function CampusMap({
   selectedDestination,
   onSelectLot,
 }: CampusMapProps) {
+  const [mapStyle, setMapStyle] = useState<"standard" | "satellite">(
+    "standard"
+  );
+
   const recommendedLot = lots.find((lot) => lot.id === recommendedLotId);
-  const [mapStyle, setMapStyle] = useState<"standard" | "satellite">("standard");
 
   return (
     <section className="map-section">
       <div className="map-legend">
-        <span><i className="legend-dot open"></i> Open</span>
-        <span><i className="legend-dot limited"></i> Limited</span>
-        <span><i className="legend-dot full"></i> Full</span>
+        <span>
+          <i className="legend-dot open"></i> Open
+        </span>
+        <span>
+          <i className="legend-dot limited"></i> Limited
+        </span>
+        <span>
+          <i className="legend-dot full"></i> Full
+        </span>
+        <span>
+          <i className="legend-dot building"></i> Destination
+        </span>
       </div>
 
       <div className="map-style-toggle">
-          <button
-            type="button"
-            className={mapStyle === "standard" ? "active" : ""}
-            onClick={() => setMapStyle("standard")}
-          >
-            Standard
-          </button>
+        <button
+          type="button"
+          className={mapStyle === "standard" ? "active" : ""}
+          onClick={() => setMapStyle("standard")}
+        >
+          Standard
+        </button>
 
-          <button
-            type="button"
-            className={mapStyle === "satellite" ? "active" : ""}
-            onClick={() => setMapStyle("satellite")}
-          >
-            Satellite
-          </button>
-        </div>
+        <button
+          type="button"
+          className={mapStyle === "satellite" ? "active" : ""}
+          onClick={() => setMapStyle("satellite")}
+        >
+          Satellite
+        </button>
+      </div>
 
       <MapContainer
         key="byui-campus-map"
@@ -104,7 +116,10 @@ export default function CampusMap({
 
         {selectedDestination && recommendedLot && (
           <Polyline
-            positions={[recommendedLot.coordinates, selectedDestination.coordinates]}
+            positions={[
+              recommendedLot.coordinates,
+              selectedDestination.coordinates,
+            ]}
             pathOptions={{
               color: "#214491",
               weight: 4,
@@ -147,9 +162,13 @@ export default function CampusMap({
                 <Polygon
                   positions={lot.boundary}
                   pathOptions={{
-                    color,  
+                    color,
                     fillColor: color,
-                    fillOpacity: isRecommended ? 0.45 : isSelected ? 0.35 : 0.25,
+                    fillOpacity: isRecommended
+                      ? 0.45
+                      : isSelected
+                      ? 0.35
+                      : 0.25,
                     weight: isRecommended ? 5 : isSelected ? 4 : 2,
                   }}
                   eventHandlers={{
@@ -179,8 +198,13 @@ export default function CampusMap({
                   <div className="map-popup">
                     <h3>{lot.name}</h3>
                     <p>
-                      {lot.availableSpots} / {lot.totalSpots} spots available
+                      <strong>{lot.availableSpots}</strong> / {lot.totalSpots}{" "}
+                      spots available
                     </p>
+                    <p>Status: {lot.status}</p>
+                    <button type="button" onClick={() => onSelectLot(lot)}>
+                      View Lot
+                    </button>
                   </div>
                 </Popup>
               </CircleMarker>
