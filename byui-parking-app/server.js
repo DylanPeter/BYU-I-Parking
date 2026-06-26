@@ -114,10 +114,14 @@ app.get("/api/health", (req, res) => {
 
 // Serve the built React frontend (Vite outputs to /dist)
 const distPath = path.join(__dirname, "dist");
+
+// Serve static assets first, with correct MIME types
 app.use(express.static(distPath));
 
-// SPA fallback: any non-API route returns index.html so React Router works
-app.get(/^(?!\/api).*/, (req, res) => {
+// SPA fallback: only for non-API, non-file routes (no dot/extension in the path)
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api")) return next();
+  if (req.path.includes(".")) return next(); // let static 404 real missing files
   res.sendFile(path.join(distPath, "index.html"));
 });
 
