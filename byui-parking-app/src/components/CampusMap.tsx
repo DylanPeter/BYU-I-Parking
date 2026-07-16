@@ -4,20 +4,21 @@ import {
   CircleMarker,
   Popup,
   Tooltip,
-  Polygon,
   Polyline,
   useMap,
 } from "react-leaflet";
 import type { ParkingLot } from "../data/parkingData";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function ResizeMap() {
   const map = useMap();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       map.invalidateSize();
     }, 100);
+
+    return () => window.clearTimeout(timeoutId);
   }, [map]);
 
   return null;
@@ -46,7 +47,10 @@ export default function CampusMap({
     "standard"
   );
 
+  const selectedLot = lots.find((lot) => lot.id === selectedLotId);
   const recommendedLot = lots.find((lot) => lot.id === recommendedLotId);
+
+  const routeLot = recommendedLot ?? selectedLot;
 
   return (
     <section className="map-section">
@@ -54,12 +58,15 @@ export default function CampusMap({
         <span>
           <i className="legend-dot open"></i> Open
         </span>
+
         <span>
           <i className="legend-dot limited"></i> Limited
         </span>
+
         <span>
           <i className="legend-dot full"></i> Full
         </span>
+
         <span>
           <i className="legend-dot building"></i> Destination
         </span>
@@ -85,15 +92,15 @@ export default function CampusMap({
 
       <MapContainer
         key="byui-campus-map"
-        center={[43.8176, -111.7836]}
-        zoom={15}
+        center={[43.8168, -111.7835]}
+        zoom={16}
         minZoom={14}
         maxZoom={18}
         maxBounds={[
-          [43.8125, -111.7905],
-          [43.8235, -111.7765],
+          [43.8100, -111.7915],
+          [43.8235, -111.7760],
         ]}
-        maxBoundsViscosity={1.0}
+        maxBoundsViscosity={1}
         scrollWheelZoom={true}
         zoomControl={false}
         className="campus-map"
@@ -114,10 +121,10 @@ export default function CampusMap({
           }
         />
 
-        {selectedDestination && recommendedLot && (
+        {selectedDestination && routeLot && (
           <Polyline
             positions={[
-              recommendedLot.coordinates,
+              routeLot.coordinates,
               selectedDestination.coordinates,
             ]}
             pathOptions={{
@@ -146,69 +153,62 @@ export default function CampusMap({
         )}
 
         {lots.map((lot) => {
-          const color =
-            lot.status === "Open"
-              ? "#06a77d"
-              : lot.status === "Limited"
-              ? "#d4840a"
-              : "#c0392b";
-
           const isSelected = lot.id === selectedLotId;
           const isRecommended = lot.id === recommendedLotId;
 
+          const lotColor =
+            lot.status === "Open"
+              ? "#22c55e"
+              : lot.status === "Limited"
+                ? "#f59e0b"
+                : "#ef4444";
+
           return (
-            <Fragment key={lot.id}>
-              {lot.boundary && lot.boundary.length > 0 && (
-                <Polygon
-                  positions={lot.boundary}
-                  pathOptions={{
-                    color,
-                    fillColor: color,
-                    fillOpacity: isRecommended
-                      ? 0.45
-                      : isSelected
-                      ? 0.35
-                      : 0.25,
-                    weight: isRecommended ? 5 : isSelected ? 4 : 2,
-                  }}
-                  eventHandlers={{
-                    click: () => onSelectLot(lot),
-                  }}
-                />
-              )}
+            <CircleMarker
+              key={lot.id}
+              center={lot.coordinates}
+              radius={isSelected || isRecommended ? 15 : 11}
+              pathOptions={{
+                color: isSelected
+                  ? "#2563eb"
+                  : isRecommended
+                    ? "#9333ea"
+                    : lotColor,
+                fillColor: lotColor,
+                fillOpacity: 0.9,
+                weight: isSelected || isRecommended ? 4 : 2,
+              }}
+              eventHandlers={{
+                click: () => onSelectLot(lot),
+              }}
+            >
+              <Tooltip direction="top" offset={[0, -8]}>
+                <strong>{lot.name}</strong>
+                <br />
+                {lot.availableSpots} spots available
+              </Tooltip>
 
-              <CircleMarker
-                center={lot.coordinates}
-                radius={isRecommended ? 10 : isSelected ? 9 : 7}
-                pathOptions={{
-                  color,
-                  fillColor: color,
-                  fillOpacity: 0.9,
-                  weight: isRecommended ? 5 : isSelected ? 4 : 2,
-                }}
-                eventHandlers={{
-                  click: () => onSelectLot(lot),
-                }}
-              >
-                <Tooltip permanent direction="top" offset={[0, -5]}>
-                  {isRecommended ? `⭐ ${lot.name}` : lot.name}
-                </Tooltip>
+              <Popup>
+                <div className="map-popup">
+                  <h3>{lot.name}</h3>
 
-                <Popup>
-                  <div className="map-popup">
-                    <h3>{lot.name}</h3>
-                    <p>
-                      <strong>{lot.availableSpots}</strong> / {lot.totalSpots}{" "}
-                      spots available
-                    </p>
-                    <p>Status: {lot.status}</p>
-                    <button type="button" onClick={() => onSelectLot(lot)}>
-                      View Lot
-                    </button>
-                  </div>
-                </Popup>
-              </CircleMarker>
-            </Fragment>
+                  <p>
+                    <strong>{lot.availableSpots}</strong> of{" "}
+                    {lot.totalSpots} spots available
+                  </p>
+
+                  <p>Status: {lot.status}</p>
+
+                  <button
+                    type="button"
+                    onClick={() => onSelectLot(lot)}
+                    disabled={lot.status === "Full"}
+                  >
+                    {lot.status === "Full" ? "Lot Full" : "Select Lot"}
+                  </button>
+                </div>
+              </Popup>
+            </CircleMarker>
           );
         })}
       </MapContainer>
