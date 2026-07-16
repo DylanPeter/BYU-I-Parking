@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParking } from "../context/ParkingContext";
 import type { ParkingLot } from "../data/parkingData";
 
@@ -6,15 +6,54 @@ import DestinationSearch from "../components/DestinationSearch";
 import CampusMap from "../components/CampusMap";
 import { destinations } from "../data/destinations";
 
+function getDistanceBetweenCoordinates(
+  pointA: [number, number],
+  pointB: [number, number]
+) {
+  const [latA, lngA] = pointA;
+  const [latB, lngB] = pointB;
+
+  const latitudeDifference = latA - latB;
+
+  const longitudeDifference =
+    (lngA - lngB) *
+    Math.cos(((latA + latB) / 2) * (Math.PI / 180));
+
+  return Math.sqrt(
+    latitudeDifference ** 2 + longitudeDifference ** 2
+  );
+}
+
+function estimateWalkMinutes(
+  lotCoordinates: [number, number],
+  destinationCoordinates: [number, number]
+) {
+  const distance = getDistanceBetweenCoordinates(
+    lotCoordinates,
+    destinationCoordinates
+  );
+
+  // Approximate conversion for a campus-scale map.
+  // Keeps the result from ever displaying as 0 minutes.
+  return Math.max(1, Math.round(distance * 5000));
+}
+
 export default function LiveMapPage() {
   const { state } = useParking();
 
   const [selectedLotId, setSelectedLotId] = useState(
     state.lots[0]?.id ?? ""
   );
+
   const [selectedDestination, setSelectedDestination] = useState("");
 
-  const selectedLot = state.lots.find((lot) => lot.id === selectedLotId);
+  const selectedLot = state.lots.find(
+    (lot) => lot.id === selectedLotId
+  );
+
+  const selectedDestinationData = destinations.find(
+    (destination) => destination.id === selectedDestination
+  );
 
   const lotSpots = state.spots.filter(
     (spot) => spot.lotId === selectedLotId
@@ -32,26 +71,40 @@ export default function LiveMapPage() {
     (spot) => spot.status === "Occupied"
   ).length;
 
-  const recommendedLots = selectedDestination
-    ? [...state.lots].sort((a, b) => {
-        const aWalk = a.walkMinutes?.[selectedDestination] ?? 999;
-        const bWalk = b.walkMinutes?.[selectedDestination] ?? 999;
+    const recommendedLots = selectedDestinationData
+      ? [...state.lots].sort((a, b) => {
+          const distanceA = getDistanceBetweenCoordinates(
+            a.coordinates,
+            selectedDestinationData.coordinates
+          );
 
-        if (aWalk !== bWalk) {
-          return aWalk - bWalk;
-        }
+          const distanceB = getDistanceBetweenCoordinates(
+            b.coordinates,
+            selectedDestinationData.coordinates
+          );
 
-        return b.availableSpots - a.availableSpots;
-      })
-    : state.lots;
+          return distanceA - distanceB;
+        })
+      : [...state.lots];
 
-  const recommendedLot = selectedDestination
-    ? recommendedLots[0]
-    : undefined;
+    const recommendedLot =
+      selectedDestinationData && recommendedLots.length > 0
+        ? recommendedLots[0]
+        : undefined;
 
-  const selectedDestinationData = destinations.find(
-    (destination) => destination.id === selectedDestination
-  );
+    console.log({
+      destination: selectedDestinationData?.name,
+      firstSortedLot: recommendedLots[0]?.name,
+      recommendedLot: recommendedLot?.name,
+    });
+
+  const recommendedWalkMinutes =
+    recommendedLot && selectedDestinationData
+      ? estimateWalkMinutes(
+          recommendedLot.coordinates,
+          selectedDestinationData.coordinates
+        )
+      : undefined;
 
   const handleSelectLot = (lot: ParkingLot) => {
     setSelectedLotId(lot.id);
@@ -62,7 +115,9 @@ export default function LiveMapPage() {
       <section className="detail-card hero-card">
         <div>
           <p className="eyebrow">Active Infrastructure Alert</p>
+
           <h2>Live Parking Availability</h2>
+
           <p className="muted">
             Monitor current open lots and select a destination to view the best
             parking option.
@@ -87,9 +142,12 @@ export default function LiveMapPage() {
 
               <h3>⭐ {recommendedLot.name}</h3>
 
-              <p>
-                {recommendedLot.walkMinutes[selectedDestination]} minute walk
-              </p>
+              {recommendedWalkMinutes !== undefined && (
+                <p>
+                  Approximately {recommendedWalkMinutes} minute
+                  {recommendedWalkMinutes === 1 ? "" : "s"} away
+                </p>
+              )}
 
               <p>{recommendedLot.availableSpots} spaces available</p>
 
@@ -100,7 +158,7 @@ export default function LiveMapPage() {
           )}
 
           <CampusMap
-            lots={recommendedLots}
+            lots={state.lots}
             selectedLotId={selectedLotId}
             recommendedLotId={recommendedLot?.id}
             selectedDestination={selectedDestinationData}
@@ -117,35 +175,44 @@ export default function LiveMapPage() {
         <h3>Available Lots</h3>
 
         <div className="lot-grid">
-          {recommendedLots.map((lot) => (
-            <button
-              key={lot.id}
-              type="button"
-              className={
-                lot.id === selectedLotId
-                  ? "lot-card selected"
-                  : "lot-card"
-              }
-              onClick={() => setSelectedLotId(lot.id)}
-            >
-              <strong>{lot.name}</strong>
+          {recommendedLots.map((lot) => {
+            const estimatedMinutes = selectedDestinationData
+              ? estimateWalkMinutes(
+                  lot.coordinates,
+                  selectedDestinationData.coordinates
+                )
+              : undefined;
 
-              <span>{lot.availableSpots} open</span>
+            return (
+              <button
+                key={lot.id}
+                type="button"
+                className={
+                  lot.id === selectedLotId
+                    ? "lot-card selected"
+                    : "lot-card"
+                }
+                onClick={() => setSelectedLotId(lot.id)}
+                disabled={lot.status === "Full"}
+              >
+                <strong>{lot.name}</strong>
 
-              {selectedDestination &&
-                lot.walkMinutes?.[selectedDestination] && (
+                <span>{lot.availableSpots} open</span>
+
+                {estimatedMinutes !== undefined && (
                   <span>
-                    {lot.walkMinutes[selectedDestination]} min walk
+                    Approximately {estimatedMinutes} min walk
                   </span>
                 )}
 
-              {lot.id === recommendedLot?.id && (
-                <small>⭐ Recommended</small>
-              )}
+                {lot.id === recommendedLot?.id && (
+                  <small>⭐ Recommended</small>
+                )}
 
-              <small>{lot.status}</small>
-            </button>
-          ))}
+                <small>{lot.status}</small>
+              </button>
+            );
+          })}
         </div>
 
         {selectedLot && (
