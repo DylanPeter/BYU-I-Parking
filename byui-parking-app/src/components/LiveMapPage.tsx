@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParking } from "../context/ParkingContext";
 import type { ParkingLot } from "../data/parkingData";
 
